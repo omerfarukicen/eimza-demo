@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.eimzakutuphanesi</groupId>
+    <artifactId>eimza-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+    <name>E-İmza Kütüphanesi Demo</name>
+    <url>https://eimzakutuphanesi.com</url>
+
+    <properties>
+        <java.version>21</java.version>
+        <eimza-core.version>1.0.0</eimza-core.version>
+        <pkcs11.jvm.args>--add-modules=jdk.crypto.cryptoki --add-exports=jdk.crypto.cryptoki/sun.security.pkcs11.wrapper=ALL-UNNAMED</pkcs11.jvm.args>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.eimzakutuphanesi</groupId>
+            <artifactId>eimza-core</artifactId>
+            <version>${eimza-core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>${pkcs11.jvm.args}</jvmArguments>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Add-Exports>jdk.crypto.cryptoki/sun.security.pkcs11.wrapper</Add-Exports>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

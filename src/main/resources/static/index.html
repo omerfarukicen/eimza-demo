@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>E-İmza Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+    <h1>E-İmza Test Konsolu</h1>
+    <div id="info" class="muted">Yükleniyor…</div>
+</header>
+
+<main>
+    <section class="card">
+        <h2>1. İmza anahtarı kaynağı</h2>
+        <div class="tabs" role="tablist">
+            <button class="tab active" data-source="SMARTCARD">Akıllı kart</button>
+            <button class="tab" data-source="HSM">HSM</button>
+            <button class="tab" data-source="PKCS12">PKCS#12 dosyası</button>
+        </div>
+
+        <div class="source" data-panel="SMARTCARD">
+            <div class="row">
+                <button id="btnTerminals">Okuyucuları listele</button>
+                <span class="muted">Takılı kartın ATR'si ile kart tipi otomatik eşleşir.</span>
+            </div>
+            <table id="terminals" class="hidden">
+                <thead><tr><th></th><th>Okuyucu</th><th>Kart</th><th>ATR</th><th>Kart tipi</th></tr></thead>
+                <tbody></tbody>
+            </table>
+            <div class="row">
+                <label>Kart tipi
+                    <select id="cardType"></select>
+                </label>
+                <label>Filtre
+                    <select id="certFilter">
+                        <option value="QUALIFIED">Nitelikli ve geçerli</option>
+                        <option value="SIGNING">İnkar edilemezlik (imza)</option>
+                        <option value="ALL">Tümü</option>
+                    </select>
+                </label>
+                <button id="btnCertificates">Sertifikaları listele</button>
+            </div>
+        </div>
+
+        <div class="source hidden" data-panel="HSM">
+            <div class="row">
+                <label class="grow">PKCS#11 kütüphanesi
+                    <input id="hsmLibrary" placeholder="/usr/safenet/lunaclient/lib/libCryptoki2_64.so">
+                </label>
+                <button id="btnSlots">Slotları listele</button>
+            </div>
+            <div class="row">
+                <label>Slot
+                    <select id="hsmSlot"></select>
+                </label>
+                <button id="btnHsmCertificates">Sertifikaları listele</button>
+            </div>
+        </div>
+
+        <div class="source hidden" data-panel="PKCS12">
+            <div class="row">
+                <label class="grow">PKCS#12 (.p12/.pfx)
+                    <input id="pkcs12" type="file" accept=".p12,.pfx">
+                </label>
+                <label>Parola
+                    <input id="pkcs12Password" type="password" autocomplete="off">
+                </label>
+            </div>
+            <p class="muted">Kart olmadan imza akışını denemek içindir.</p>
+        </div>
+    </section>
+
+    <section class="card" id="certSection">
+        <h2>2. Sertifikalar</h2>
+        <table id="certificates" class="hidden">
+            <thead>
+            <tr><th></th><th>Ad Soyad</th><th>TCKN</th><th>Seri No</th><th>Veren</th><th>Geçerlilik</th><th>Anahtar</th><th>Özellik</th><th></th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p id="certEmpty" class="muted">Henüz sertifika listelenmedi.</p>
+    </section>
+
+    <section class="card">
+        <h2>3. İmzala</h2>
+        <div class="row">
+            <label class="grow">Belge
+                <input id="signFile" type="file">
+            </label>
+            <label>İmza tipi
+                <select id="profile"></select>
+            </label>
+            <label>Paketleme
+                <select id="packaging">
+                    <option value="AUTO">Otomatik</option>
+                    <option value="ENVELOPING">Gömülü (enveloping)</option>
+                    <option value="ENVELOPED">Belge içinde (enveloped)</option>
+                    <option value="DETACHED">Ayrık (detached)</option>
+                </select>
+            </label>
+        </div>
+        <div class="row">
+            <label class="check"><input id="contentIsDigest" type="checkbox"> Dosya hazır özet (hash) içeriyor</label>
+            <label>Özet algoritması
+                <select id="digestAlgorithm">
+                    <option value="">Otomatik</option>
+                    <option>SHA256</option>
+                    <option>SHA384</option>
+                    <option>SHA512</option>
+                </select>
+            </label>
+            <label>PIN
+                <input id="pin" type="password" autocomplete="off" size="10">
+            </label>
+        </div>
+        <fieldset id="tsFields">
+            <legend>Zaman damgası (T / XLONG / LT / A tipleri için)</legend>
+            <div class="row">
+                <label class="grow">Adres
+                    <input id="tsUrl" placeholder="http://zd.kamusm.gov.tr">
+                </label>
+                <label>Kullanıcı no
+                    <input id="tsUser" size="10">
+                </label>
+                <label>Şifre
+                    <input id="tsPassword" type="password" autocomplete="off" size="12">
+                </label>
+            </div>
+            <p class="muted">Boş bırakılırsa uygulama ayarlarındaki sağlayıcılar kullanılır.</p>
+        </fieldset>
+        <div class="row">
+            <button id="btnSign" class="primary">İmzala ve indir</button>
+            <span id="selected" class="muted">Seçili sertifika yok.</span>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>4. Doğrula</h2>
+        <div class="row">
+            <label class="grow">İmzalı dosya
+                <input id="verifySigned" type="file">
+            </label>
+            <label class="grow">Orijinal belge (ayrık imza için)
+                <input id="verifyOriginal" type="file">
+            </label>
+        </div>
+        <div class="row">
+            <label class="check"><input id="verifyOriginalIsDigest" type="checkbox"> Orijinal dosya hazır özet</label>
+            <label class="check"><input id="rejectMaliMuhur" type="checkbox"> Mali mühürü reddet</label>
+            <button id="btnVerify" class="primary">Doğrula</button>
+        </div>
+        <div id="verifyResult"></div>
+    </section>
+
+    <section class="card">
+        <h2>5. İmza yükselt (BES → T / XLONG / A)</h2>
+        <div class="row">
+            <label class="grow">İmzalı dosya
+                <input id="extendSigned" type="file">
+            </label>
+            <label class="grow">Orijinal belge (ayrık imza için)
+                <input id="extendOriginal" type="file">
+            </label>
+            <label>Hedef tip
+                <select id="extendProfile"></select>
+            </label>
+        </div>
+        <div class="row">
+            <label class="check"><input id="extendOriginalIsDigest" type="checkbox"> Orijinal dosya hazır özet</label>
+            <button id="btnExtend" class="primary">Yükselt ve indir</button>
+            <span class="muted">Zaman damgası alanları 3. bölümden alınır.</span>
+        </div>
+    </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>

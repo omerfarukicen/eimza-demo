@@ -1,0 +1,28 @@
+server:
+  address: 127.0.0.1
+  port: 8095
+
+spring:
+  application:
+    name: eimza-demo
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 60MB
+
+eimza:
+  online-revocation: true
+  bundled-trust-store: true
+  depot-download: true
+  depot-cache:
+  lenient-augmentation: false
+  svt-files: []
+  trusted-certificate-directories: []
+  library-search-directories: []
+  library-overrides: {}
+  timestamp-providers: []
+  hsm-library:
+
+logging:
+  level:
+    com.eimzakutuphanesi.eimza: DEBUG
