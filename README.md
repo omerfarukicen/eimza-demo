@@ -53,7 +53,6 @@ IDE'den çalıştırırken JVM'e şu parametreleri ekleyin (`java -jar` ile gere
 
 | Anahtar | Açıklama |
 |---|---|
-| `eimza.timestamp-providers[n].url`, `user-id`, `password` | Zaman damgası sağlayıcıları (sırayla denenir) |
 | `eimza.online-revocation` | OCSP / CRL / AIA çevrimiçi sorguları |
 | `eimza.depot-download` | Açılışta güncel kök sertifika deposunu indirir |
 | `eimza.library-overrides.<KART_TIPI>` | Kart sürücüsü için özel PKCS#11 kütüphane yolu |
