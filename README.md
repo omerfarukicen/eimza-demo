@@ -60,6 +60,16 @@ IDE'den çalıştırırken JVM'e şu parametreleri ekleyin (`java -jar` ile gere
 
 Zaman damgası bilgileri gibi gizli değerleri `config/application.yml` dosyasında tutun; bu dosya `.gitignore` ile depodan hariç tutulur.
 
+## Yol haritası
+
+Yakında:
+
+| Başlık | Durum |
+|---|---|
+| .NET kütüphanesi | Yakında |
+| Go kütüphanesi | Yakında |
+| Sunucu tabanlı sürüm: servis olarak çalışır, REST ve HTTP/3 ile uzaktan çağrılır, container imajı olarak dağıtılır | Yakında |
+
 ## Lisans ve destek
 
 Kütüphane lisansı, fiyatlandırma ve destek için: **[eimzakutuphanesi.com](https://eimzakutuphanesi.com)**
