@@ -11,8 +11,8 @@
 | Kartları görme | Takılı kart okuyucularını ve kart tipini (ATR ile) otomatik tespit eder |
 | Sertifikaları görme | Karttaki sertifikaları **PIN istemeden** listeler; nitelikli / imza / tümü filtresi, zincir ve iptal (OCSP/CRL) kontrolü |
 | Seçilen sertifika ile imza | Akıllı kart, HSM (PKCS#11) veya PKCS#12 dosyası |
-| İmza tipleri | CAdES, XAdES, PAdES — BES, T, XLONG (LT) ve A (LTA) seviyeleri; gömülü, ayrık, belge içi ve hazır özet (hash) ile imza |
-| İmza yükseltme | BES imzayı T / XLONG / A seviyesine yükseltme |
+| İmza tipleri | CAdES, XAdES, PAdES — B-B, B-T, B-LT ve B-LTA (ETSI baseline) seviyeleri; attached, detached, enveloped ve hazır özet (hash) ile detached imza |
+| İmza yükseltme | B-B imzayı B-T / B-LT / B-LTA seviyesine yükseltme |
 | Doğrulama | ETSI uyumlu doğrulama; imzalayan, TCKN, sertifika, algoritma ve imza zamanı bilgileri |
 | Zaman damgası | Kullanıcı no / şifre destekli zaman damgası sağlayıcıları, sağlayıcılar arası otomatik geçiş |
 
